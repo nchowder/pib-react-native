@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';
-import MainApp from './src/MainApp'
-import store from './src/store'
+import MainApp from './src/app/MainApp'
+import store from './src/app/store'
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);

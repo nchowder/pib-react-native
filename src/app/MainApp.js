@@ -6,12 +6,15 @@ import {
     StyleSheet
 } from "react-native";
 
+import Curriculum from '../curricula/Curriculum'
+
 class MainApp extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Hello</Text>
-            </View>
+            // <View style={styles.container}>
+            //     <Text>Hello</Text>
+            // </View>
+            <Curriculum />
         );
     }
 }
