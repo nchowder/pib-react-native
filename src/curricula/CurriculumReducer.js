@@ -1,5 +1,10 @@
 const defaultState = {
-    curriculumInfo: 'hello',
+    curriculumInfo: {
+        author: {
+            display_name: ''
+        },
+        units: []
+    },
     loading: true
 }
 

@@ -6,19 +6,14 @@ import {
     StyleSheet
 } from "react-native";
 
-import Curriculum from '../curricula/Curriculum'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
+import CurriculumScreen from '../curricula/Curriculum'
 
-class MainApp extends Component {
-    render() {
-        return (
-            // <View style={styles.container}>
-            //     <Text>Hello</Text>
-            // </View>
-            <Curriculum />
-        );
-    }
-}
-export default MainApp;
+const AppNavigator = createStackNavigator({
+    Home: CurriculumScreen
+})
+
+export default createAppContainer(AppNavigator)
 
 const styles = StyleSheet.create({
     container: {

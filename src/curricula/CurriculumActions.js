@@ -3,7 +3,7 @@ const apiRoot = 'https://www.physicsisbeautiful.com/api'
 
 export function loadCurriculumInfo(curriculumName) {
     return dispatch => {
-        return fetch(`${apiRoot}/v1/curricula/curricula/${curriculumName}`).then((response) => 
+        return fetch(`${apiRoot}/v1/curricula/curricula/${curriculumName}?expand=units.modules`).then((response) => 
             response.json()
         )
         .then(data => dispatch(setCurriculumInfo(data)))
