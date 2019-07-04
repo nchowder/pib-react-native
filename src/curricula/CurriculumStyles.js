@@ -9,7 +9,4 @@ export default StyleSheet.create({
 		width: 200,
 		height: 200
 	}, 
-	tileSheet: {
-		width: 200
-	}
 })
