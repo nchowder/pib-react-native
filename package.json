@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.0",
+    "eslint-plugin-react": "^7.14.2",
     "jest-expo": "^33.0.0"
   },
   "private": true
