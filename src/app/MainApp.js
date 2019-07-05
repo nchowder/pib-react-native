@@ -4,8 +4,8 @@ import CurriculumScreen from '../curricula/CurriculumScreen'
 import ModuleScreen from '../curricula/ModuleScreen'
 
 const AppNavigator = createStackNavigator({
-	Home: CurriculumScreen,
-	Module: ModuleScreen
+  Home: CurriculumScreen,
+  Module: ModuleScreen
 })
 
 export default createAppContainer(AppNavigator)
