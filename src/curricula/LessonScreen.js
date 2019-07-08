@@ -4,8 +4,9 @@ import {View, Text, ScrollView} from 'react-native'
 import {connect} from 'react-redux'
 import {TileSheet} from './CurriculumScreen'
 import * as actionCreators from './CurriculumActions'
+import MultipleChoiceQuestion from './components/MultipleChoiceQuestion';
 
-class ModuleScreen extends React.Component {
+class LessonScreen extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -15,14 +16,7 @@ class ModuleScreen extends React.Component {
     })
 
     componentDidMount() {
-        this.props.loadModuleInfo(this.props.navigation.getParam('uuid'))
-    }
-
-    navigateToLesson(lessonUuid, lessonTitle) {
-        this.props.navigation.navigate('Lesson', {
-            uuid: lessonUuid,
-            title: lessonTitle
-        })
+        this.props.loadNextQuestion(this.props.navigation.getParam('uuid'))
     }
 
     render() {
@@ -30,9 +24,9 @@ class ModuleScreen extends React.Component {
             <Spinner
                 visible={this.props.loading}
                 textContent={'Loading...'}
-            />      
-            <ScrollView visible={!this.props.loading} style={{flex: 1, padding: 5}}>
-                <TileSheet navigateTo={this.navigateToLesson.bind(this)} tiles={this.props.moduleInfo.lessons}></TileSheet>
+            />
+            <ScrollView visible={!this.props.loading}>
+                <MultipleChoiceQuestion question={this.props.questionInfo}></MultipleChoiceQuestion>
             </ScrollView>
         </View>
     }
@@ -41,4 +35,4 @@ class ModuleScreen extends React.Component {
 
 // container:
 const mapStateToProps = (state) => state.curriculum
-export default connect (mapStateToProps, actionCreators)(ModuleScreen)
+export default connect (mapStateToProps, actionCreators)(LessonScreen)

@@ -9,7 +9,11 @@ const defaultState = {
     name: '',
     lessons: []
   },
-  loading: true
+  questionInfo: {
+    text: '',
+    choices: []
+  },
+  loading: false
 }
 
 let curriculumReducer = (state=defaultState, action) => {
@@ -25,7 +29,13 @@ let curriculumReducer = (state=defaultState, action) => {
       moduleInfo: action.moduleInfo,
       loading: false
     }
-  } else if (action.type == 'START_LOADING') {
+  } else if (action.type == 'SET_QUESTION_INFO') {
+    return {
+      ...state,
+      questionInfo: action.questionInfo,
+      loading: false
+    }
+  }else if (action.type == 'START_LOADING') {
     return {
       ...state,
       loading: true
