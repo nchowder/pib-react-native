@@ -13,6 +13,9 @@ const defaultState = {
     text: '',
     choices: []
   },
+  responseInfo: {
+
+  },
   loading: false
 }
 
@@ -35,10 +38,16 @@ let curriculumReducer = (state=defaultState, action) => {
       questionInfo: action.questionInfo,
       loading: false
     }
-  }else if (action.type == 'START_LOADING') {
+  } else if (action.type == 'START_LOADING') {
     return {
       ...state,
-      loading: true
+      loading: false // TODO change to true
+    }
+  } else if (action.type == 'SET_RESPONSE_INFO') {
+    return {
+      ...state,
+      responseInfo: action.responseInfo,
+      loading: false
     }
   } else {
     return {...state}

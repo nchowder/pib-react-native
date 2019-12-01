@@ -42,10 +42,40 @@ export function loadNextQuestion(lessonUuid) {
   }
 }
 
+export function submitResponse(questionUuid, responseJson) {
+  return dispatch => {
+    dispatch(startLoading())
+    fetch(`${apiRoot}/v1/curricula/questions/${questionUuid}/response`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(responseJson)
+    })
+      .then((response) => {
+        console.log(response)
+        return response.json()
+      }
+      )
+      .then(data => dispatch(setResponseInfo(data)))
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+}
+
 function setCurriculumInfo(curriculumInfo) {
   return {
     type: 'SET_CURRICULUM_INFO',
     curriculumInfo: curriculumInfo
+  }
+}
+
+function setResponseInfo(responseInfo) {
+  return {
+    type: 'SET_RESPONSE_INFO',
+    responseInfo: responseInfo
   }
 }
 

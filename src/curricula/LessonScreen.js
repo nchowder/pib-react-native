@@ -19,6 +19,14 @@ class LessonScreen extends React.Component {
         this.props.loadNextQuestion(this.props.navigation.getParam('uuid'))
     }
 
+    submit(questionUuid, choiceUuid) {
+        this.props.submitResponse(questionUuid, {
+            'answer': {
+                'uuid': choiceUuid
+            }
+        })
+    }
+
     render() {
         return <View style={{flex: 1}}>
             <Spinner
@@ -26,7 +34,7 @@ class LessonScreen extends React.Component {
                 textContent={'Loading...'}
             />
             <ScrollView visible={!this.props.loading}>
-                <MultipleChoiceQuestion question={this.props.questionInfo}></MultipleChoiceQuestion>
+                <MultipleChoiceQuestion question={this.props.questionInfo} submit={this.submit.bind(this)}></MultipleChoiceQuestion>
             </ScrollView>
         </View>
     }

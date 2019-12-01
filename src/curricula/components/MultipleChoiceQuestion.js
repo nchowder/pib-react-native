@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native'
-import {ButtonGroup} from 'react-native-elements'
+import {ButtonGroup, Button} from 'react-native-elements'
 
 class MultipleChoiceQuestion extends React.Component {
     constructor(props) {
@@ -14,6 +14,13 @@ class MultipleChoiceQuestion extends React.Component {
         console.log(selectedIndex)
         this.setState({selectedChoice: selectedIndex})
     }
+    
+    submit() {
+        // console.log(this.props.qusestion.choices[this.state.selectedChoice])
+        
+        this.props.submit(this.props.question.uuid, 
+            this.props.question.choices[this.state.selectedChoice].uuid)
+    }
 
     render() {
         const buttons = this.props.question.choices.map((choice) => {
@@ -25,7 +32,6 @@ class MultipleChoiceQuestion extends React.Component {
             </View>})
         })
 
-        // console.log(this.props)
         return (
             <View>
                 <Text>{this.props.question.text}</Text>
@@ -37,6 +43,7 @@ class MultipleChoiceQuestion extends React.Component {
                     buttons={buttons}
                     selectedIndex={this.state.selectedChoice}
                 ></ButtonGroup>
+                <Button title="Submit" onPress={this.submit.bind(this)}></Button>
             </View>
         )
     }
