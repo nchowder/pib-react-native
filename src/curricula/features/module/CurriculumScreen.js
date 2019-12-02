@@ -1,10 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import * as actionCreators from './CurriculumActions'
 import {View, TouchableOpacity, Image, ScrollView} from 'react-native'
 import { Container, Header, Content, Card, CardItem, Text, Body} from 'native-base'
 import Spinner from 'react-native-loading-spinner-overlay'
 import styles from './CurriculumStyles'
+
+import { fetchCurriculumInfo } from './moduleSlice'
+
+const mapDispatch = { fetchCurriculumInfo }
 
 class Tile extends React.Component {
   constructor(props) {
@@ -37,6 +40,7 @@ class Tile extends React.Component {
 export function TileSheet(props) {
   // "Sheet" of image tiles (module/lesson)
   // Name is a unit/module
+  console.log(props)
   return (
     <View>
       {props.tileSheetName? 
@@ -61,7 +65,7 @@ class CurriculumScreen extends React.Component {
   }
  
   componentDidMount() {
-    this.props.loadCurriculumInfo('default')
+    this.props.fetchCurriculumInfo('default')
   }
 
   navigateToModule(moduleUuid, moduleTitle) {
@@ -72,6 +76,7 @@ class CurriculumScreen extends React.Component {
   }
 
   render() {
+    window.PROP = this.props
     return <View style={{flex: 1}}>
       <Spinner
         visible={this.props.loading}
@@ -88,5 +93,5 @@ class CurriculumScreen extends React.Component {
 }
 
 // container:
-const mapStateToProps = (state) => state.curriculum
-export default connect (mapStateToProps, actionCreators)(CurriculumScreen)
+const mapStateToProps = (state) => state.curriculum.module
+export default connect (mapStateToProps, mapDispatch)(CurriculumScreen)

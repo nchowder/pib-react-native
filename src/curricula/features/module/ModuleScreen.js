@@ -3,7 +3,10 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import {View, Text, ScrollView} from 'react-native'
 import {connect} from 'react-redux'
 import {TileSheet} from './CurriculumScreen'
-import * as actionCreators from './CurriculumActions'
+
+import { fetchModuleInfo } from './moduleSlice'
+
+const mapDispatch = { fetchModuleInfo }
 
 class ModuleScreen extends React.Component {
     constructor(props) {
@@ -15,7 +18,7 @@ class ModuleScreen extends React.Component {
     })
 
     componentDidMount() {
-        this.props.loadModuleInfo(this.props.navigation.getParam('uuid'))
+        this.props.fetchModuleInfo(this.props.navigation.getParam('uuid'))
     }
 
     navigateToLesson(lessonUuid, lessonTitle) {
@@ -40,5 +43,5 @@ class ModuleScreen extends React.Component {
 
 
 // container:
-const mapStateToProps = (state) => state.curriculum
-export default connect (mapStateToProps, actionCreators)(ModuleScreen)
+const mapStateToProps = (state) => state.curriculum.module
+export default connect (mapStateToProps, mapDispatch)(ModuleScreen)
