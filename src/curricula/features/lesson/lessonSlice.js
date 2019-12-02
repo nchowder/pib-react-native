@@ -20,6 +20,9 @@ const initialState = {
     required_score: 80,
     was_correct: null
   },
+  status: {
+    score: 0
+  }
 }
 
 const lessonSlice = createSlice({
@@ -41,6 +44,9 @@ const lessonSlice = createSlice({
     clearResponse(state) {
       state.currentAnswer = {}
       state.response.was_correct = null
+    },
+    changeScore(state, { payload }) {
+      state.status.score += payload
     }
   }
 })
@@ -65,8 +71,9 @@ export function fetchResponse(questionUuid, responseJson) {
   return async dispatch => {
     const response = await getSubmitResponse(questionUuid, responseJson)
     dispatch(setResponse(response))
+    dispatch(changeScore(response.score))
   }
 }
 
-export const { setNextQuestion, setResponse, setCurrentAnswer, setLessonUuid, clearResponse } = lessonSlice.actions
+export const { setNextQuestion, setResponse, setCurrentAnswer, setLessonUuid, clearResponse, changeScore } = lessonSlice.actions
 export default lessonSlice.reducer
