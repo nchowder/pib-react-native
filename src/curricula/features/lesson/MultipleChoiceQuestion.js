@@ -1,18 +1,22 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {View, Text, ScrollView} from 'react-native'
+import {Image, ButtonGroup} from 'react-native-elements'
 
 class MultipleChoiceQuestion extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      selectedChoice: null
-    }
   }
 
-  updateChoice(selectedIndex) {
-    console.log(selectedIndex)
-    this.setState({selectedChoice: selectedIndex})
+  onChange(selectedIndex) {
+    const newAnswer = {
+      answer: {
+        uuid: this.props.question.choices[selectedIndex]['uuid']
+      }
+    }
+    this.props.changeAnswer(newAnswer)
   }
-    
+
   render() {
     const buttons = this.props.question.choices.map((choice) => {
       return ({element: () => <View key={choice.uuid}>
@@ -30,14 +34,13 @@ class MultipleChoiceQuestion extends React.Component {
           style={{width: 100, height: 100, resizeMode: 'contain'}}
           source={{uri: this.props.question.image}}></Image>:null}
         <ButtonGroup
-          onPress={this.updateChoice.bind(this)}
+          onPress={this.onChange.bind(this)}
           buttons={buttons}
-          selectedIndex={this.state.selectedChoice}
+          // selectedIndex={this.state.selectedChoice}
         ></ButtonGroup>
       </View>
     )
   }
-
 }
 
 export default MultipleChoiceQuestion

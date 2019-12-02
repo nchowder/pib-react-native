@@ -11,7 +11,8 @@ const initialState = {
     uuid: null,
     choices: []
   },
-  responseInfo: {
+  currentAnswer : {},
+  response: {
     score: 0,
     status: 0,
     completed_on: null,
@@ -24,16 +25,34 @@ const lessonSlice = createSlice({
   name: 'lesson',
   initialState: initialState,
   reducers: {
-    loadNextQuestion(state, action) {
-      const lessonUuid = action.payload
-      state.lessonInfo = getNextQuestion(lessonUuid)
+    setNextQuestion(state, { payload }) {
+      state.questionInfo = payload
     },
-    submitResponse(state, action) {
-      const {questionUuid, responseJson} = action.payload
-      state.responseInfo = getSubmitResponse(questionUuid, responseJson)
+    setResponse(state, { payload }) {
+      state.response = payload
+    },
+    setCurrentAnswer(state, { payload }) {
+      state.currentAnswer = payload
     }
   }
 })
 
-export const { loadNextQuestion, submitResponse } = lessonSlice.actions
+// async functions
+export function fetchNextQuestion(lessonUuid) {
+  // TODO error handling
+  return async dispatch => {
+    const questionInfo = await getNextQuestion(lessonUuid)
+    dispatch(setNextQuestion(questionInfo))
+  }
+}
+
+export function fetchResponse(questionUuid, responseJson) {
+  // TODO error handling
+  return async dispatch => {
+    const response = await getSubmitResponse(questionUuid, responseJson)
+    dispatch(setResponse(response))
+  }
+}
+
+export const { setNextQuestion, setResponse, setCurrentAnswer } = lessonSlice.actions
 export default lessonSlice.reducer

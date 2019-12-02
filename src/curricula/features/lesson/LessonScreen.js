@@ -4,11 +4,11 @@ import {View, Text, ScrollView} from 'react-native'
 import {connect} from 'react-redux'
 import {TileSheet} from '../module/CurriculumScreen'
 import {Button} from 'react-native-elements'
-import MultipleChoiceQuestion from '../../components/MultipleChoiceQuestion'
+import MultipleChoiceQuestion from './MultipleChoiceQuestion'
 
-import { loadNextQuestion, submitResponse } from './lessonSlice'
+import { fetchNextQuestion, fetchResponse, setCurrentAnswer } from './lessonSlice'
 
-const mapDispatch = { loadNextQuestion, submitResponse }
+const mapDispatch = { fetchNextQuestion, fetchResponse, setCurrentAnswer }
 
 class LessonScreen extends React.Component {
     constructor(props) {
@@ -21,15 +21,15 @@ class LessonScreen extends React.Component {
 
     componentDidMount() {
         console.log('hello')
-        loadNextQuestion(this.props.navigation.getParam('uuid'))
+        this.props.fetchNextQuestion(this.props.navigation.getParam('uuid'))
     }
 
     submit() {
-        submitResponse(this.props.questionInfo.uuid, {
-            'answer': {
-                'uuid': this.props.questionInteraction.selected_choice
-            }
-        })
+        this.props.fetchResponse(this.props.questionInfo.uuid, this.props.currentAnswer)
+    }
+
+    changeAnswer(newAnswer) {
+        this.props.setCurrentAnswer(newAnswer)
     }
 
     render() {
@@ -41,7 +41,8 @@ class LessonScreen extends React.Component {
             <ScrollView visible={!this.props.loading}>
                 <MultipleChoiceQuestion 
                 question={this.props.questionInfo} 
-                submit={this.submit.bind(this)}></MultipleChoiceQuestion>
+                submit={this.submit.bind(this)}
+                changeAnswer={this.changeAnswer.bind(this)}></MultipleChoiceQuestion>
             </ScrollView>
             <Button title="Submit" onPress={this.submit.bind(this)}></Button>
         </View>
@@ -50,5 +51,5 @@ class LessonScreen extends React.Component {
 
 
 // container:
-const mapStateToProps = (state) => state.curriculum
+const mapStateToProps = (state) => state.curriculum.lesson
 export default connect (mapStateToProps, mapDispatch)(LessonScreen)
