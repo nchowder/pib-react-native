@@ -40,7 +40,6 @@ class Tile extends React.Component {
 export function TileSheet(props) {
   // "Sheet" of image tiles (module/lesson)
   // Name is a unit/module
-  console.log(props)
   return (
     <View>
       {props.tileSheetName? 
@@ -76,7 +75,6 @@ class CurriculumScreen extends React.Component {
   }
 
   render() {
-    window.PROP = this.props
     return <View style={{flex: 1}}>
       <Spinner
         visible={this.props.loading}

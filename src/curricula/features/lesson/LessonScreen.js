@@ -6,9 +6,9 @@ import {TileSheet} from '../module/CurriculumScreen'
 import {Button} from 'react-native-elements'
 import MultipleChoiceQuestion from './MultipleChoiceQuestion'
 
-import { fetchNextQuestion, fetchResponse, setCurrentAnswer } from './lessonSlice'
+import { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid } from './lessonSlice'
 
-const mapDispatch = { fetchNextQuestion, fetchResponse, setCurrentAnswer }
+const mapDispatch = { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid }
 
 class LessonScreen extends React.Component {
     constructor(props) {
@@ -20,12 +20,16 @@ class LessonScreen extends React.Component {
     })
 
     componentDidMount() {
-        console.log('hello')
-        this.props.fetchNextQuestion(this.props.navigation.getParam('uuid'))
+        this.props.setLessonUuid(this.props.navigation.getParam('uuid'))
+        this.props.fetchNextQuestion()
     }
 
     submit() {
         this.props.fetchResponse(this.props.questionInfo.uuid, this.props.currentAnswer)
+    }
+
+    continue() {
+        this.props.fetchNextQuestion()
     }
 
     changeAnswer(newAnswer) {
@@ -38,13 +42,17 @@ class LessonScreen extends React.Component {
                 visible={this.props.loading}
                 textContent={'Loading...'}
             />
-            <ScrollView visible={!this.props.loading}>
+            <View visible={!this.props.loading}>
                 <MultipleChoiceQuestion 
+                key={this.props.questionInfo.uuid}
                 question={this.props.questionInfo} 
                 submit={this.submit.bind(this)}
                 changeAnswer={this.changeAnswer.bind(this)}></MultipleChoiceQuestion>
-            </ScrollView>
-            <Button title="Submit" onPress={this.submit.bind(this)}></Button>
+            </View>
+            <Button title={this.props.response.was_correct == null ? "Check" : "Continue"} 
+                onPress={this.props.response.was_correct == null ? 
+                    this.submit.bind(this) : this.continue.bind(this)}>
+            </Button>
         </View>
     }
 }

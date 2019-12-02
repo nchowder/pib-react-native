@@ -6,9 +6,13 @@ import {Image, ButtonGroup} from 'react-native-elements'
 class MultipleChoiceQuestion extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      selectedChoice: null
+    }
   }
-
+  
   onChange(selectedIndex) {
+    this.setState({selectedChoice: selectedIndex})
     const newAnswer = {
       answer: {
         uuid: this.props.question.choices[selectedIndex]['uuid']
@@ -36,7 +40,7 @@ class MultipleChoiceQuestion extends React.Component {
         <ButtonGroup
           onPress={this.onChange.bind(this)}
           buttons={buttons}
-          // selectedIndex={this.state.selectedChoice}
+          selectedIndex={this.state.selectedChoice}
         ></ButtonGroup>
       </View>
     )

@@ -18,11 +18,17 @@ export async function getModuleInfo(moduleName) {
   return response.json()
 }
 
-export async function getNextQuestion(lessonUuid) {
+export async function getNextQuestion(lessonUuid, previousQuestion = null) {
   /**
      * Gets the next question in a given lesson (uses cookies to store state)
      */
-  const response = await fetch(`${apiRoot}/v1/curricula/lessons/${lessonUuid}/next-question`)
+  let response
+  if (previousQuestion) {
+    response = await fetch(`${apiRoot}/v1/curricula/lessons/${lessonUuid}/next-question?previous_question=${previousQuestion}`)
+  } else{
+    response = await fetch(`${apiRoot}/v1/curricula/lessons/${lessonUuid}/next-question`)
+  }
+
   return response.json()
 }
 

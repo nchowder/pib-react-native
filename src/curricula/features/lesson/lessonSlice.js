@@ -6,6 +6,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import {getNextQuestion, getSubmitResponse} from '../../../api/studyhub-api'
 
 const initialState = {
+  lessonUuid: null,
   questionInfo: {
     text: '',
     uuid: null,
@@ -33,20 +34,33 @@ const lessonSlice = createSlice({
     },
     setCurrentAnswer(state, { payload }) {
       state.currentAnswer = payload
+    },
+    setLessonUuid(state, { payload }) {
+      state.lessonUuid = payload
+    },
+    clearResponse(state) {
+      state.currentAnswer = {}
+      state.response.was_correct = null
     }
   }
 })
 
 // async functions
-export function fetchNextQuestion(lessonUuid) {
+export function fetchNextQuestion() {
   // TODO error handling
-  return async dispatch => {
-    const questionInfo = await getNextQuestion(lessonUuid)
+  return async (dispatch, getState) => {
+    const state = getState().curriculum.lesson
+    console.log(state.lessonUuid, state.questionInfo.uuid)
+    const questionInfo = await getNextQuestion(state.lessonUuid, state.questionInfo.uuid)
     dispatch(setNextQuestion(questionInfo))
+    dispatch(clearResponse())
   }
 }
 
 export function fetchResponse(questionUuid, responseJson) {
+  /**
+   * Check the current answer
+   */
   // TODO error handling
   return async dispatch => {
     const response = await getSubmitResponse(questionUuid, responseJson)
@@ -54,5 +68,5 @@ export function fetchResponse(questionUuid, responseJson) {
   }
 }
 
-export const { setNextQuestion, setResponse, setCurrentAnswer } = lessonSlice.actions
+export const { setNextQuestion, setResponse, setCurrentAnswer, setLessonUuid, clearResponse } = lessonSlice.actions
 export default lessonSlice.reducer
