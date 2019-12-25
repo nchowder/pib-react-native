@@ -56,7 +56,6 @@ export function fetchNextQuestion() {
   // TODO error handling
   return async (dispatch, getState) => {
     const state = getState().curriculum.lesson
-    console.log(state.lessonUuid, state.questionInfo.uuid)
     const questionInfo = await getNextQuestion(state.lessonUuid, state.questionInfo.uuid)
     dispatch(setNextQuestion(questionInfo))
     dispatch(clearResponse())

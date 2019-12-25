@@ -8,24 +8,51 @@ import ChoiceGroup from '../../components/choiceGroup'
 class MultipleChoiceQuestion extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      selected: null
+
+    if (props.multiSelect) {
+      this.state = {
+        selected: new Array(this.props.question.choices.length)
+      }
+    } else {
+      this.state = {
+        selected: null
+      }
     }
   }
   
   onChange(selectedIndex) {
-    if (selectedIndex == this.state.selected) {
-      // deselect
-      this.setState({selected: null})
+    let newAnswer
+    if (this.props.multiSelect) {
+      let answerList
+
+      const newSelected = this.state.selected.slice()
+      newSelected[selectedIndex] = !newSelected[selectedIndex]
+      
+      // change selected indices
+      this.setState({selected: newSelected})
+      
+      // change answer
+      answerList = newSelected.map((item, index) => item? {uuid: this.props.question.choices[index]['uuid']} : null).filter(item => item)
+      newAnswer = {
+        answers_list: answerList
+      }
     } else {
-      // select
-      this.setState({selected: selectedIndex})
-    }
-    const newAnswer = {
-      answer: {
-        uuid: this.props.question.choices[selectedIndex]['uuid']
+      if (selectedIndex == this.state.selected) {
+        // deselect
+        this.setState({selected: null})
+      } else {
+        // select
+        this.setState({selected: selectedIndex})
+      }
+
+      // change answer
+      newAnswer = {
+        answer: {
+          uuid: this.props.question.choices[selectedIndex]['uuid']
+        }
       }
     }
+
     this.props.changeAnswer(newAnswer)
   }
 
@@ -38,21 +65,7 @@ class MultipleChoiceQuestion extends React.Component {
         {this.props.question.image? <Image 
           style={styles.questionImage}
           source={{uri: this.props.question.image}}></Image>:null}
-        {/* <ButtonGroup
-          onPress={this.onChange.bind(this)}
-          buttons={buttons}
-          selectedIndex={this.state.selectedChoice}
-        ></ButtonGroup> */}
-        {/* <View>
-          {this.props.question.choices.map((choice) => {
-            <TouchableOpacity key={choice.uuid} style={{width:100, height:100}}>
-              <Text>{choice.content.text}</Text>
-              {choice.content.image? <Image 
-                style={{width: 100, height: 100, resizeMode: 'contain'}}
-                source={{uri: choice.content.image}}></Image>:null}
-            </TouchableOpacity>
-          })}
-        </View> */}
+
         <ChoiceGroup 
           choices={choices}
           onPress={this.onChange.bind(this)}
@@ -60,6 +73,10 @@ class MultipleChoiceQuestion extends React.Component {
       </View>
     )
   }
+}
+
+MultipleChoiceQuestion.defaultProps = {
+  multiSelect: false
 }
 
 export default MultipleChoiceQuestion

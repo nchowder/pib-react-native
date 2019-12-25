@@ -4,10 +4,10 @@ import {View, Text, ScrollView} from 'react-native'
 import {connect} from 'react-redux'
 import {TileSheet} from '../module/CurriculumScreen'
 import {Button} from 'react-native-elements'
-import MultipleChoiceQuestion from './MultipleChoiceQuestion'
 import ProgressBar from 'react-native-progress/Bar';
 import styles from './lessonStyles'
 import { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid } from './lessonSlice'
+import Question from './Question'
 
 const mapDispatch = { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid }
 
@@ -42,6 +42,7 @@ class LessonScreen extends React.Component {
     }
 
     changeAnswer(newAnswer) {
+        console.log(newAnswer)
         this.props.setCurrentAnswer(newAnswer)
     }
 
@@ -65,13 +66,13 @@ class LessonScreen extends React.Component {
                 textContent={'Loading...'}
             />
             <View visible={!this.props.loading}>
-                <MultipleChoiceQuestion 
+                <Question 
                 key={this.props.questionInfo.uuid}
                 question={this.props.questionInfo} 
-                submit={this.submit.bind(this)}
-                changeAnswer={this.changeAnswer.bind(this)}></MultipleChoiceQuestion>
+                changeAnswer={this.changeAnswer.bind(this)}></Question>
             </View>
 
+            {/* Correct/incorrect indicators */}
             {this.props.response.was_correct == true && 
             <View>
                 <Text>Correct</Text>
@@ -82,6 +83,7 @@ class LessonScreen extends React.Component {
                 <Text>Incorrect</Text>
             </View>}
 
+            {/* Submit button */}
             <Button title={this.props.response.was_correct == null ? "Check" : "Continue"} 
                 onPress={this.props.response.was_correct == null ? 
                     this.submit.bind(this) : this.continue.bind(this)}>

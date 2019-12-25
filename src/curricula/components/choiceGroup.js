@@ -20,14 +20,17 @@ class choiceGroup extends React.Component {
   }
 
   render() {
-    // console.log(this.props.choices)
+    const multiSelect = Array.isArray(this.props.selectedIndex)
+    
     return (
       <View>
         {this.props.choices.map((choice, index) => 
           <TouchableOpacity 
             key={index}
-            style={this.props.selectedIndex == index? [styles.choice, styles.selectedChoice] : [styles.choice]}
-            onPress={() => this.props.onPress(index)}>
+            style={((multiSelect && this.props.selectedIndex[index]) || (!multiSelect && this.props.selectedIndex == index))? 
+              [styles.choice, styles.selectedChoice] : [styles.choice]}
+            // Pressing is handled by parent component
+            onPress={() => this.props.onPress(index)}> 
             {choice}
           </TouchableOpacity>)}
       </View>
@@ -37,8 +40,8 @@ class choiceGroup extends React.Component {
 
 choiceGroup.propTypes = {
   onPress: PropTypes.func,
-  selectedIndex: PropTypes.number,
-  choices: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedIndex: PropTypes.any,  // number or array of booleanss
+  choices: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default choiceGroup
