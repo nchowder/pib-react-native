@@ -29,6 +29,7 @@ const lessonSlice = createSlice({
   name: 'lesson',
   initialState: initialState,
   reducers: {
+    // synchronous functions
     setNextQuestion(state, { payload }) {
       state.questionInfo = payload
     },
@@ -47,7 +48,8 @@ const lessonSlice = createSlice({
     },
     changeScore(state, { payload }) {
       state.status.score += payload
-    }
+    },
+    resetState: () => initialState
   }
 })
 
@@ -74,5 +76,5 @@ export function fetchResponse(questionUuid, responseJson) {
   }
 }
 
-export const { setNextQuestion, setResponse, setCurrentAnswer, setLessonUuid, clearResponse, changeScore } = lessonSlice.actions
+export const { setNextQuestion, setResponse, setCurrentAnswer, setLessonUuid, clearResponse, changeScore, resetState } = lessonSlice.actions
 export default lessonSlice.reducer

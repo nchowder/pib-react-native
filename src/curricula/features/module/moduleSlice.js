@@ -35,6 +35,9 @@ const moduleSlice = createSlice({
        * payload: curriculumUuid
        */
       state.curriculumInfo = payload
+    },
+    resetModule(state, { payload }) {
+      state.moduleInfo = initialState.moduleInfo
     }
   }
 })
@@ -58,7 +61,7 @@ export function fetchModuleInfo(moduleUuid) {
 
 // "ducks" pattern
 // do named exports of action creators
-export const { setModuleInfo, setCurriculumInfo } = moduleSlice.actions
+export const { setModuleInfo, setCurriculumInfo, resetModule } = moduleSlice.actions
 
 // do default export of reducer function
 export default moduleSlice.reducer

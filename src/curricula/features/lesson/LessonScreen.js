@@ -4,12 +4,13 @@ import {View, Text, ScrollView} from 'react-native'
 import {connect} from 'react-redux'
 import {TileSheet} from '../module/CurriculumScreen'
 import {Button} from 'react-native-elements'
-import ProgressBar from 'react-native-progress/Bar';
+import ProgressBar from 'react-native-progress/Bar'
 import styles from './lessonStyles'
-import { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid } from './lessonSlice'
+import { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid, resetState } from './lessonSlice'
 import Question from './Question'
+import { withNavigationFocus } from "react-navigation"
 
-const mapDispatch = { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid }
+const mapDispatch = { fetchNextQuestion, fetchResponse, setCurrentAnswer, setLessonUuid, resetState }
 
 class LessonScreen extends React.Component {
     constructor(props) {
@@ -23,6 +24,13 @@ class LessonScreen extends React.Component {
     componentDidMount() {
         this.props.setLessonUuid(this.props.navigation.getParam('uuid'))
         this.props.fetchNextQuestion()
+    }
+
+    componentDidUpdate() {
+        if (!this.props.isFocused) {
+            // if we are exiting this screen, then reset all the lesson information
+            this.props.resetState()
+        }
     }
 
     submit() {
@@ -98,4 +106,4 @@ class LessonScreen extends React.Component {
 
 // container:
 const mapStateToProps = (state) => state.curriculum.lesson
-export default connect (mapStateToProps, mapDispatch)(LessonScreen)
+export default connect (mapStateToProps, mapDispatch)(withNavigationFocus(LessonScreen))
