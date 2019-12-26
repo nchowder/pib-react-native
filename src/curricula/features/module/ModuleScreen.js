@@ -21,10 +21,13 @@ class ModuleScreen extends React.Component {
         this.props.fetchModuleInfo(this.props.navigation.getParam('uuid'))
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(previousProps) {
         if (!this.props.isFocused) {
-            // if we are exiting this screen, then reset all the lesson information
+            // if we are exiting this screen, then reset all the module information
             this.props.resetModule()
+        } else if (this.props.isFocused != previousProps.isFocused) {
+            // if we are entering this screen again, then fetch module info again
+            this.props.fetchModuleInfo(this.props.navigation.getParam('uuid'))
         }
     }
 
