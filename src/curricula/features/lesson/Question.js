@@ -19,6 +19,8 @@ class Question extends React.Component {
       return (
         <MultipleChoiceQuestion
           question={this.props.question}
+          correctAnswer={this.props.correctAnswer}
+          wasCorrect={this.props.wasCorrect}
           changeAnswer={this.props.changeAnswer.bind(this)}
         ></MultipleChoiceQuestion>
       )
@@ -26,6 +28,8 @@ class Question extends React.Component {
       return (
         <MultipleChoiceQuestion
           question={this.props.question}
+          correctAnswer={this.props.correctAnswer}
+          wasCorrect={this.props.wasCorrect}
           changeAnswer={this.props.changeAnswer.bind(this)}
           multiSelect={true}
         ></MultipleChoiceQuestion>

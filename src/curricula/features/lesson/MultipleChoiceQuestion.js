@@ -9,48 +9,49 @@ class MultipleChoiceQuestion extends React.Component {
   constructor(props) {
     super(props)
 
-    let selected
-    if (props.multiSelect) {
-      selected = new Array(this.props.question.choices.length)
-    } else {
-      selected = null
-    }
-
     this.state = {
-      selected: selected,
+      selected: [],
+      correct: [],
+      incorrect: [],
       hintVisible: false
     }
   }
   
-  onChange(selectedIndex) {
+  onChange(selectedUuid) {
+    // if submitted, don't accept anything
+    if (this.props.wasCorrect != null) return
     let newAnswer
     if (this.props.multiSelect) {
-      let answerList
+      let newSelected = [...this.state.selected]
 
-      const newSelected = this.state.selected.slice()
-      newSelected[selectedIndex] = !newSelected[selectedIndex]
+      // toggle selected uuid
+      if (newSelected.includes(selectedUuid)) {
+        newSelected = newSelected.filter(item => item !== selectedUuid)
+      } else {
+        newSelected.push(selectedUuid)
+      }
       
       // change selected indices
       this.setState({selected: newSelected})
       
       // change answer
-      answerList = newSelected.map((item, index) => item? {uuid: this.props.question.choices[index]['uuid']} : null).filter(item => item)
+      const answerList = newSelected.map(k => ({uuid: k}))
       newAnswer = {
         answers_list: answerList
       }
     } else {
-      if (selectedIndex == this.state.selected) {
+      if (this.state.selected.includes(selectedUuid)) {
         // deselect
-        this.setState({selected: null})
+        this.setState({selected: []})
       } else {
         // select
-        this.setState({selected: selectedIndex})
+        this.setState({selected: [selectedUuid]})
       }
 
       // change answer
       newAnswer = {
         answer: {
-          uuid: this.props.question.choices[selectedIndex]['uuid']
+          uuid: selectedUuid
         }
       }
     }
@@ -63,8 +64,6 @@ class MultipleChoiceQuestion extends React.Component {
   }
 
   render() {
-    const choices = this.props.question.choices.map((choice) => <View>
-      <Text>{choice.content.text}</Text></View>)
     return (
       <View style={styles.question}>
         <Text>{this.props.question.text}</Text>
@@ -78,9 +77,13 @@ class MultipleChoiceQuestion extends React.Component {
         />:null}
         {this.state.hintVisible?<Text>{this.props.question.hint}</Text>:null}
         <ChoiceGroup 
-          choices={choices}
+          choices={this.props.question.choices}
           onPress={this.onChange.bind(this)}
-          selectedIndex={this.state.selected}></ChoiceGroup>
+          wasCorrect={this.props.wasCorrect}
+          correctAnswer={this.props.correctAnswer}
+          selected={this.state.selected}
+          correct={this.state.correct}
+          incorrect={this.state.incorrect}></ChoiceGroup>
       </View>
     )
   }

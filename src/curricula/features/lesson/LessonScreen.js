@@ -76,7 +76,9 @@ class LessonScreen extends React.Component {
             <View visible={!this.props.loading}>
                 <Question 
                 key={this.props.questionInfo.uuid}
-                question={this.props.questionInfo} 
+                question={this.props.questionInfo}
+                correctAnswer={this.props.response.correct_answer}
+                wasCorrect={this.props.response.was_correct} 
                 changeAnswer={this.changeAnswer.bind(this)}></Question>
             </View>
 
