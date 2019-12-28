@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native'
-import {Image, ButtonGroup} from 'react-native-elements'
+import {Image, ButtonGroup, Button} from 'react-native-elements'
 import styles from './lessonStyles'
 import ChoiceGroup from '../../components/choiceGroup'
 
@@ -9,14 +9,16 @@ class MultipleChoiceQuestion extends React.Component {
   constructor(props) {
     super(props)
 
+    let selected
     if (props.multiSelect) {
-      this.state = {
-        selected: new Array(this.props.question.choices.length)
-      }
+      selected = new Array(this.props.question.choices.length)
     } else {
-      this.state = {
-        selected: null
-      }
+      selected = null
+    }
+
+    this.state = {
+      selected: selected,
+      hintVisible: false
     }
   }
   
@@ -56,6 +58,10 @@ class MultipleChoiceQuestion extends React.Component {
     this.props.changeAnswer(newAnswer)
   }
 
+  toggleHint() {
+    this.setState({hintVisible: !this.state.hintVisible})
+  }
+
   render() {
     const choices = this.props.question.choices.map((choice) => <View>
       <Text>{choice.content.text}</Text></View>)
@@ -65,7 +71,12 @@ class MultipleChoiceQuestion extends React.Component {
         {this.props.question.image? <Image 
           style={styles.questionImage}
           source={{uri: this.props.question.image}}></Image>:null}
-
+        {this.props.question.hint?<Button
+          type='clear'
+          title='Hint'
+          onPress={this.toggleHint.bind(this)}
+        />:null}
+        {this.state.hintVisible?<Text>{this.props.question.hint}</Text>:null}
         <ChoiceGroup 
           choices={choices}
           onPress={this.onChange.bind(this)}
