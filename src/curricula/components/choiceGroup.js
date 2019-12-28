@@ -11,6 +11,14 @@ const styles = StyleSheet.create({
     marginVertical: 3,
     padding: 5,
     borderRadius: 5
+  },
+  incorrectChoice: {
+    borderColor: 'red',
+    borderWidth: 1
+  },
+  correctChoice: {
+    borderColor: 'green',
+    borderWidth: 2
   }
 })
 
@@ -33,13 +41,17 @@ class choiceGroup extends React.Component {
     const incorrect = this.props.incorrect
     const correct = this.props.correct
     
+    // console.log(correct.includes(this.props.choices[0].uuid))
     return (
       <View>
         {this.props.choices.map((choice) => 
           <TouchableOpacity 
             key={choice.uuid}
-            style={(selected.includes(choice.uuid))? 
-              [styles.choice, styles.selectedChoice] : [styles.choice]}
+            style={[
+              styles.choice, 
+              selected.includes(choice.uuid) && styles.selectedChoice,
+              incorrect.includes(choice.uuid) && styles.incorrectChoice,
+              correct.includes(choice.uuid) && styles.correctChoice]}
             // Pressing is handled by parent component
             onPress={() => this.props.onPress(choice.uuid)}>
             {<View><Text>{choice.content.text}</Text></View>}

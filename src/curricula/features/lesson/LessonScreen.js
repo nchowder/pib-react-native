@@ -50,7 +50,6 @@ class LessonScreen extends React.Component {
     }
 
     changeAnswer(newAnswer) {
-        console.log(newAnswer)
         this.props.setCurrentAnswer(newAnswer)
     }
 

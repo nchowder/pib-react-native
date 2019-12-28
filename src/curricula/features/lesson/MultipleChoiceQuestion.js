@@ -10,7 +10,7 @@ class MultipleChoiceQuestion extends React.Component {
     super(props)
 
     this.state = {
-      selected: [],
+      selected: [],  // array of uuids
       correct: [],
       incorrect: [],
       hintVisible: false
@@ -57,6 +57,28 @@ class MultipleChoiceQuestion extends React.Component {
     }
 
     this.props.changeAnswer(newAnswer)
+  }
+
+  componentDidUpdate(prevProps) {
+    // when user clicks submit, update correct/incorrect
+    if (prevProps.wasCorrect == null) {
+      if (this.props.wasCorrect) {
+        this.setState({
+          correct: this.state.selected
+        })
+      } else if (this.props.wasCorrect === false) {
+        let correctAnswer
+        if (this.props.multiSelect) {
+          correctAnswer = this.props.correctAnswer.map(item => item.uuid)
+        } else {
+          correctAnswer = [this.props.correctAnswer.uuid]
+        }
+        this.setState({
+          incorrect: this.state.selected,
+          correct: correctAnswer
+        })
+      }
+    }
   }
 
   toggleHint() {
