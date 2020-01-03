@@ -26,7 +26,7 @@
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-canvas": "^0.1.33",
-    "react-native-elements": "^1.1.0",
+    "react-native-elements": "^1.2.7",
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-progress": "^4.0.2",
     "react-native-web": "^0.11.4",
