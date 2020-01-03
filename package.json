@@ -12,11 +12,11 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo/samples": "~3.0.0",
+    "@expo/samples": "~3.0.3",
     "@expo/vector-icons": "^10.0.1",
     "@reduxjs/toolkit": "^1.2.1",
     "expo": "^33.0.0",
-    "expo-asset": "^5.0.0",
+    "expo-asset": "^8.0.0",
     "expo-constants": "^8.0.0",
     "expo-font": "^8.0.0",
     "expo-web-browser": "^5.0.0",
@@ -26,11 +26,11 @@
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-canvas": "^0.1.33",
-    "react-native-elements": "^1.1.0",
+    "react-native-elements": "^1.2.7",
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-progress": "^4.0.2",
     "react-native-web": "^0.11.4",
-    "react-native-webview": "~5.8.1",
+    "react-native-webview": "~8.0.2",
     "react-navigation": "^4.0.7",
     "react-navigation-drawer": "^2.3.3",
     "react-navigation-stack": "^1.10.3",
@@ -43,7 +43,7 @@
     "babel-preset-expo": "^5.1.0",
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-react-native": "^3.8.1",
-    "jest-expo": "^33.0.0"
+    "jest-expo": "^34.0.1"
   },
   "private": true
 }
